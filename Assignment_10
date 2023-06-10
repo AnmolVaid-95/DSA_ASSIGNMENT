@@ -1,0 +1,178 @@
+Q1. Given an integer `n`, return *`true` if it is a power of three. Otherwise, return `false`*.
+
+An integer `n` is a power of three, if there exists an integer `x` such that `n == 3x`
+
+Ans.
+
+def isPowerOfThree(n):
+    if n <= 0:
+        return False
+
+    while n > 1:
+        if n % 3 != 0:
+            return False
+        n //= 3
+
+    return True
+
+========================================================================================
+========================================================================================
+========================================================================================
+
+Q2. You have a list `arr` of all integers in the range `[1, n]` sorted in a strictly increasing order. Apply the following algorithm on `arr`:
+
+- Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
+- Repeat the previous step again, but this time from right to left, remove the rightmost number and every other number from the remaining numbers.
+- Keep repeating the steps again, alternating left to right and right to left, until a single number remains.
+
+Given the integer `n`, return *the last number that remains in* `arr`.
+
+Ans. 
+
+def lastRemaining(n):
+    left_to_right = True
+    remaining = n
+    step = 1
+    head = 1
+
+    while remaining > 1:
+        if left_to_right or remaining % 2 == 1:
+            head += step
+
+        remaining //= 2
+        step *= 2
+        left_to_right = not left_to_right
+
+    return head
+
+========================================================================================
+========================================================================================
+========================================================================================
+
+ Q3. Given a set represented as a string, write a recursive code to print all subsets of it. The subsets can be printed in any order.
+ 
+ Ans.
+ 
+ def printSubsets(s):
+    # Helper function to recursively generate subsets
+    def generateSubsets(s, subset, index):
+        # Print the current subset
+        print(subset)
+
+        # Explore remaining elements
+        for i in range(index, len(s)):
+            # Include the current element in the subset
+            subset.append(s[i])
+
+            # Generate subsets with the remaining elements
+            generateSubsets(s, subset, i + 1)
+
+            # Exclude the current element from the subset
+            subset.pop()
+
+    # Convert the string to a list of characters
+    char_list = list(s)
+
+    # Call the helper function to generate subsets
+    generateSubsets(char_list, [], 0)
+
+# Test the function
+printSubsets("abc")
+
+========================================================================================
+========================================================================================
+========================================================================================
+
+Q4 . Given a string calculate length of the string using recursion.
+
+Ans. 
+
+def calculateLength(s):
+    if s == "":
+        return 0
+    else:
+        return 1 + calculateLength(s[1:])
+        
+========================================================================================
+========================================================================================
+========================================================================================
+
+Q5. We are given a string S, we need to find count of all contiguous substrings starting and ending with same character.
+
+Ans. 
+def countSubstrings(S):
+    count = 0
+    for i in range(len(S)):
+        for j in range(i, len(S)):
+            if S[i] == S[j]:
+                count += 1
+    return count
+    
+    
+========================================================================================
+========================================================================================
+========================================================================================
+
+Q6. The tower of Hanoi is a famous puzzle where we have three rods and N disks. 
+The objective of the puzzle is to move the entire stack to another rod. You are given the number of discs N. Initially, 
+these discs are in the rod 1. You need to print all the steps of discs movement so that all the discs reach the 3rd rod. 
+Also, you need to find the total moves.Note: The discs are arranged such that the top disc is numbered 1 and the bottom-most disc is numbered N. 
+Also, all the discs have different sizes and a bigger disc cannot be put on the top of a smaller disc. 
+Refer the provided link to get a better clarity about the puzzle.
+
+Ans. 
+
+def towerOfHanoi(n, source, destination, auxiliary):
+    if n == 0:
+        return
+
+    towerOfHanoi(n - 1, source, auxiliary, destination)
+    print(f"Move disc {n} from rod {source} to rod {destination}")
+    towerOfHanoi(n - 1, auxiliary, destination, source)
+
+# Test the function
+n = 3
+towerOfHanoi(n, 1, 3, 2)
+
+========================================================================================
+========================================================================================
+========================================================================================
+
+Q7. Given a string str, the task is to print all the permutations of str. A permutation is an arrangement of all or part of a set of objects, 
+with regard to the order of the arrangement. For instance, the words ‘bat’ and ‘tab’ represents two distinct permutation (or arrangements) of a similar three letter word.
+
+Ans. 
+
+def printPermutations(s, left, right):
+    if left == right:
+        print("".join(s))
+    else:
+        for i in range(left, right + 1):
+            s[left], s[i] = s[i], s[left]  # Swap characters
+            printPermutations(s, left + 1, right)
+            s[left], s[i] = s[i], s[left]  # Restore the original order
+
+# Test the function
+string = "abc"
+n = len(string)
+printPermutations(list(string), 0, n - 1)
+
+========================================================================================
+========================================================================================
+========================================================================================
+
+Q8. Given a string, count total number of consonants in it. 
+A consonant is an English alphabet character that is not vowel (a, e, i, o and u). Examples of constants are b, c, d, f, and g.
+
+Ans. 
+
+def countConsonants(s):
+    consonants = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
+    count = 0
+
+    for char in s:
+        if char in consonants:
+            count += 1
+
+    return count
+
