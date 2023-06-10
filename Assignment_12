@@ -1,0 +1,320 @@
+Q1. Given a singly linked list, delete middle of the linked list. For example, if given linked list is 1->2->3->4->5 then linked list should be modified to 1->2->4->5. 
+If there are even nodes, then there would be two middle nodes, we need to delete the second middle element. 
+For example, if given linked list is 1->2->3->4->5->6 then it should be modified to 1->2->3->5->6.If the input linked list is NULL or has 1 node, 
+then it should return NULL
+
+Ans. 
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def deleteMiddleNode(head):
+    if head is None or head.next is None:
+        return None
+
+    slow = head
+    fast = head
+    prev = None
+
+    while fast and fast.next:
+        fast = fast.next.next
+        prev = slow
+        slow = slow.next
+
+    prev.next = slow.next
+
+    return head
+    
+================================================================================
+================================================================================
+================================================================================
+    
+Q2. Given a linked list of N nodes. The task is to check if the linked list has a loop. Linked list can contain self loop.
+    
+Ans. 
+    
+ class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def hasCycle(head):
+    if head is None or head.next is None:
+        return False
+
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow == fast:
+            return True
+
+    return False
+    
+================================================================================
+================================================================================
+================================================================================
+
+Q3. Given a linked list consisting of L nodes and given a number N. 
+The task is to find the Nth node from the end of the linked list.
+
+Ans. 
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def findNthFromEnd(head, n):
+    if head is None:
+        return None
+
+    slow = head
+    fast = head
+
+    # Move the fast pointer n nodes ahead
+    for _ in range(n):
+        if fast is None:
+            return None
+        fast = fast.next
+
+    # Move both pointers until the fast pointer reaches the end
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next
+
+    return slow.val
+    
+================================================================================
+================================================================================
+================================================================================
+
+Q4. Given a singly linked list of characters, write a function that returns true if the given list is a palindrome, else false.
+
+Ans. 
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def isPalindrome(head):
+    if head is None or head.next is None:
+        return True
+
+    # Step 1: Find the middle of the linked list
+    slow = head
+    fast = head
+
+    while fast.next and fast.next.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    # Step 2: Reverse the second half of the linked list
+    second_half = reverse(slow.next)
+    slow.next = None
+
+    # Step 3: Compare the first half with the reversed second half
+    first_half = head
+
+    while first_half and second_half:
+        if first_half.val != second_half.val:
+            return False
+
+        first_half = first_half.next
+        second_half = second_half.next
+
+    return True
+
+
+def reverse(head):
+    prev = None
+    curr = head
+
+    while curr:
+        next_node = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next_node
+
+    return prev
+    
+        
+================================================================================
+================================================================================
+================================================================================
+
+Q5. Given a linked list of **N** nodes such that it may contain a loop.
+
+A loop here means that the last node of the link list is connected to the node at position X(1-based index). If the link list does not have any loop, X=0.
+
+Remove the loop from the linked list, if it is present, i.e. unlink the last node which is forming the loop.
+
+Ans. class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def detectAndRemoveLoop(head):
+    if head is None or head.next is None:
+        return
+
+    # Step 1: Find the loop using Floyd's Cycle-Finding Algorithm
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow == fast:
+            break
+
+    # If no loop is found, return
+    if slow != fast:
+        return
+
+    # Step 2: Find the start of the loop
+    slow = head
+
+    while slow.next != fast.next:
+        slow = slow.next
+        fast = fast.next
+
+    # Step 3: Remove the loop
+    fast.next = None
+
+================================================================================
+================================================================================
+================================================================================
+
+Q6. Given a linked list and two integers M and N. Traverse the linked list such that you retain M nodes then delete next N nodes, 
+continue the same till end of the linked list.
+
+Difficulty Level: Rookie 
+
+Ans. 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def retainAndDelete(head, M, N):
+    if M == 0:
+        return None
+
+    current = head
+
+    while current:
+        # Retain M nodes
+        for _ in range(M - 1):
+            if current:
+                current = current.next
+            else:
+                break
+
+        if not current:
+            break
+
+        # Delete N nodes
+        next_node = current
+        for _ in range(N):
+            if next_node:
+                next_node = next_node.next
+            else:
+                break
+
+        if next_node:
+            current.next = next_node.next
+
+        current = current.next
+
+    return head
+
+================================================================================
+================================================================================
+================================================================================
+
+Q7. Given two linked lists, insert nodes of second list into first list at alternate positions of first list.
+For example, if first list is 5->7->17->13->11 and second is 12->10->2->4->6, the first list should become 5->12->7->10->17->2->13->4->11->6 and second list should become empty. The nodes of second list should only be inserted when there are positions available. For example, if the first list is 1->2->3 and second list is 4->5->6->7->8, then first list should become 1->4->2->5->3->6 and second list to 7->8.
+
+Use of extra space is not allowed (Not allowed to create additional nodes), i.e., insertion must be done in-place. Expected time complexity is O(n) where n is number of nodes in first list.
+
+Ans. 
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def insertAlternatePositions(first, second):
+    if not second:
+        return first
+
+    current_first = first
+    current_second = second
+
+    while current_first and current_second:
+        next_first = current_first.next
+        next_second = current_second.next
+
+        current_first.next = current_second
+        current_second.next = next_first
+
+        current_first = next_first
+        current_second = next_second
+
+    second = None
+
+    return first
+
+
+# Helper function to print the linked list
+def printLinkedList(head):
+    current = head
+    while current:
+        print(current.val, end=" ")
+        current = current.next
+    print()
+
+================================================================================
+================================================================================
+================================================================================
+
+Q8. Given a singly linked list, find if the linked list is circular or not.
+
+Ans. 
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def isCircular(head):
+    if not head or not head.next:
+        return False
+
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow == fast:
+            return True
+
+    return False
